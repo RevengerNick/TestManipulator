@@ -2,7 +2,7 @@ import { Container, Grid, Typography, Box, Paper } from "@mui/material";
 import { useManipulator } from "./hooks/useManipulator";
 import { ControlPanel } from "./components/ControlPanel";
 import { Visualization } from "./components/Visualization";
-import { ReadmePanel } from "./components/ReadmePanel";
+import { JoystickPanel } from "./components/JoystickPanel";
 
 function App() {
   const {
@@ -10,6 +10,11 @@ function App() {
     animationSpeed, setAnimationSpeed, originalCommand, setOriginalCommand,
     optimizedCommand, handleStartAnimation,
   } = useManipulator();
+
+  const handleJoystickClick = (command: string) => {
+    setOriginalCommand(prevCommand => prevCommand + command);
+  };
+
 
   return (
     <Box sx={{
@@ -62,7 +67,7 @@ function App() {
               />
             </Grid>
             <Grid>
-              <ReadmePanel />
+              <JoystickPanel onCommandClick={handleJoystickClick} isAnimating={isAnimating} />
             </Grid>
           </Grid>
         </Paper>

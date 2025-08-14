@@ -1,4 +1,5 @@
-import { TextField, Typography, Box, Button, Slider } from "@mui/material";
+import { TextField, Typography, Box, Button, Slider, InputAdornment, IconButton } from "@mui/material";
+import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
 
 interface ControlPanelProps {
     originalCommand: string;
@@ -14,6 +15,9 @@ export const ControlPanel = ({
     originalCommand, setOriginalCommand, optimizedCommand,
     animationSpeed, setAnimationSpeed, isAnimating, onStart
 }: ControlPanelProps) => {
+    const handleClear = () => {
+        setOriginalCommand('');
+    };
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3.5 }}>
             <TextField
@@ -22,6 +26,22 @@ export const ControlPanel = ({
                 value={originalCommand}
                 onChange={(e) => setOriginalCommand(e.target.value)}
                 placeholder="Например: ППННЛОБ..."
+                InputProps={{
+                    // 3. Добавляем украшение в конец поля ввода
+                    endAdornment: (
+                        // Показываем кнопку, только если в поле есть текст
+                        <InputAdornment position="end" sx={{ visibility: originalCommand ? 'visible' : 'hidden' }}>
+                            <IconButton
+                                aria-label="очистить поле команд"
+                                onClick={handleClear}
+                                edge="end"
+                                title="Очистить" // Всплывающая подсказка при наведении
+                            >
+                                <BackspaceOutlinedIcon />
+                            </IconButton>
+                        </InputAdornment>
+                    )
+                }}
             />
             <TextField
                 label="Оптимизированная команда"
