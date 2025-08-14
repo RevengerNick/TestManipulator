@@ -2,6 +2,7 @@ import { Container, Grid, Typography, Box, Paper } from "@mui/material";
 import { useManipulator } from "./hooks/useManipulator";
 import { ControlPanel } from "./components/ControlPanel";
 import { Visualization } from "./components/Visualization";
+import { ReadmePanel } from "./components/ReadmePanel";
 
 function App() {
   const {
@@ -59,6 +60,9 @@ function App() {
                 hasSample={hasSample}
                 animationSpeed={animationSpeed}
               />
+            </Grid>
+            <Grid>
+              <ReadmePanel />
             </Grid>
           </Grid>
         </Paper>
