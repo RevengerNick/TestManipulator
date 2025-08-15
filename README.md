@@ -1,69 +1,100 @@
-# React + TypeScript + Vite
+# Панель управления манипулятором (Тестовое задание)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Это веб-приложение представляет собой интерактивный интерфейс для управления роботизированным манипулятором. Пользователи могут вводить последовательности команд, которые автоматически оптимизируются по сложным правилам, а затем наблюдать за анимированным выполнением этих команд на виртуальном столе.
 
-Currently, two official plugins are available:
+## Основные возможности (согласно ТЗ)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **✅ Ввод команд:** Пользователь может вводить команды с клавиатуры или использовать интерактивный джойстик.
+- **✅ Продвинутая оптимизация:** Реализован сложный рекурсивный алгоритм оптимизации, который обрабатывает:
+  - Простое сжатие: `ЛЛЛВВ` → `3Л2В`
+  - Сжатие повторяющихся блоков: `ЛНЛНЛН` → `3(ЛН)`
+  - Комбинированные случаи: `ПННПННПННННН` → `2(П2Н)3Н`
+- **✅ Визуализация:** Движение манипулятора по полю анимировано. Скорость анимации можно настраивать с помощью слайдера.
+- **✅ Интерактивное управление:** Реализован джойстик для быстрого ввода команд и кнопка для очистки поля ввода.
+- **✅ Современный интерфейс:** UI построен на Material UI с соблюдением принципов адаптивного дизайна.
+- **✅ Продуманная архитектура:** Проект разбит на логические модули (хуки, компоненты, утилиты) в соответствии с принципами SOLID.
+- **✅ Контейнеризация:** Приложение полностью настроено для запуска в среде Docker для разработки.
 
-## Expanding the ESLint configuration
+_Примечание: такие пункты ТЗ, как авторизация, история команд и Snackbar-уведомления, являются следующими шагами и требуют подключения state-менеджера (например, Redux Toolkit) и бэкенда._
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Технологический стек
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **React** (v18+)
+- **TypeScript**
+- **Vite** (сборщик проекта)
+- **Material UI (MUI)** (библиотека компонентов)
+- **Yarn** (менеджер пакетов)
+- **Docker & Docker Compose** (контейнеризация)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Структура проекта
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Проект структурирован для масштабируемости и поддержки:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- `src/components`: "Глупые" презентационные компоненты, отвечающие только за UI.
+- `src/hooks`: Кастомные хуки, инкапсулирующие всю бизнес-логику и управление состоянием.
+- `src/utils`: Чистые функции, не зависящие от React (например, алгоритм оптимизации).
+- `src/assets`: Статические ресурсы (иконки, изображения).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Как запустить проект
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Предварительные требования
+
+Перед началом убедитесь, что у вас установлены:
+
+- **Node.js** (рекомендуется версия v18 или выше)
+- **Yarn** (`npm install -g yarn`)
+- **Docker** и **Docker Compose**
+
+---
+
+### Способ 1: Локальный запуск (для разработки)
+
+Этот способ использует ваш локальный Node.js и идеально подходит для активной разработки.
+
+1.  **Клонируйте репозиторий:**
+
+    ```bash
+    git clone <адрес_вашего_репозитория>
+    cd <имя_папки_проекта>
+    ```
+
+2.  **Установите зависимости:**
+
+    ```bash
+    yarn install
+    ```
+
+3.  **Запустите сервер для разработки:**
+
+    ```bash
+    yarn dev
+    ```
+
+4.  Откройте браузер и перейдите по адресу `http://localhost:3000`.
+
+---
+
+### Способ 2: Запуск через Docker (рекомендуется для консистентной среды)
+
+Этот способ запускает приложение в изолированном контейнере, что гарантирует одинаковую работу на любом компьютере.
+
+1.  **Клонируйте репозиторий** (если еще не сделали).
+
+2.  **Соберите и запустите контейнер:**
+    Находясь в корневой папке проекта, выполните команду:
+
+    ```bash
+    docker-compose up --build
+    ```
+
+    _Чтобы запустить в фоновом режиме, добавьте флаг `-d`: `docker-compose up --build -d`_
+
+3.  Откройте браузер и перейдите по адресу `http://localhost:3000`.
+
+_**Примечание:** `docker-compose.yml` настроен на подключение к внешней сети `vs_code_default`. Если такая сеть не существует, Docker Compose выдаст ошибку. Вы можете либо создать ее, либо удалить секцию `networks` из `docker-compose.yml` для использования сети по умолчанию._
+
+## Доступные скрипты
+
+- `yarn dev`: запуск сервера для разработки с hot-reload.
+- `yarn build`: сборка production-версии приложения в папку `dist`.
+- `yarn preview`: локальный предпросмотр собранной production-версии.
